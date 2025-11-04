@@ -6,19 +6,9 @@ backBtn.title = "Go Back";
 
 backBtn.onclick = () => {
   const currentUrl = window.location.href;
-  const match = currentUrl.match(/\/semesters\/subjects\/semester_(\d+)_([a-z_]+)/i);
-  if (match) {
-    const semester = match[1];
-    const subject = match[2];
-    const backUrl = currentUrl.replace(
-      /\/subjects\/semester_\d+_[a-z_]+/i,
-      `/semester_${semester}`
-    );
-
-    window.location.href = backUrl;
-  } else {
-    alert("Back navigation not available for this page.");
-  }
+  const match = currentUrl.match(/\/semester_(\d+)\/[a-z_]+/i);
+  const backUrl = currentUrl.replace(/\/semester_\d+\/[a-z_]+/i, `/semester_${match[1]}`);
+  window.location.href = backUrl;
 };
 
 document.body.appendChild(backBtn);

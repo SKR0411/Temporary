@@ -1,7 +1,7 @@
 // --- Knowlet Unit Navigation + Top Bar (Icon Only + Auto Hide) ---
 (function () {
-  const currentUrl = window.location.href.split('?')[0]; // Remove query parameters for cleaner history
-  const match = currentUrl.match(/(.*_unit_)(\d+)()?$/);
+  const currentUrl = window.location.href;
+  const match = currentUrl.match(/(\/unit_)(\d+)/i);
   const container = document.querySelector(".container");
 
   // Create top bar container
@@ -13,11 +13,7 @@
   backBtn.id = "back-btn";
   backBtn.title = "Go Back";
   backBtn.onclick = () => {
-    const currentUrl = window.location.href;
-    const backUrl = currentUrl.replace(
-      /\/notes\/([a-z0-9_]+)_unit_\d+()?$/i,
-      "/$1"
-    );
+    const backUrl = currentUrl.replace(/\/unit_\d+/i, "");
     window.location.href = backUrl;
   };
   topBar.appendChild(backBtn);
@@ -31,11 +27,11 @@
   if (match) {
     const base = match[1];
     const currentNum = parseInt(match[2]);
-    const ext = match[3] || ".html";
-
+    console.log(base);
+    console.log(currentNum);
     // Previous
     if (currentNum > 1) {
-      prev.href = `${base}${currentNum - 1}${ext}`;
+      prev.href = currentUrl.replace(/\/unit_\d+/i, `${base}${currentNum - 1}`);
       prev.title = `Previous Unit (${currentNum - 1})`;
     } else {
       prev.classList.add("disabled");
@@ -44,7 +40,7 @@
 
     // Next
     if (currentNum < 5) {
-      next.href = `${base}${currentNum + 1}${ext}`;
+      next.href = currentUrl.replace(/\/unit_\d+/i, `${base}${currentNum + 1}`);
       next.title = `Next Unit (${currentNum + 1})`;
     } else {
       next.classList.add("disabled");
